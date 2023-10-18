@@ -3,3 +3,5 @@ output/*
 .ipynb_checkpoints/*
 .idea/*
 src/*.ipynb
+git_pull_overwrite
+myGit
