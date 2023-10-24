@@ -11,6 +11,10 @@
 #  y se guardan en las respectivas carpetas de las series y llamadas por
 #  su propio nombre en la carpeta output.
 #
+#  Dos opciones disponibles:
+#   - Para varios cubos del mismo objeto numerados desde el 1
+#   - Para un solo subo
+#
 ####################################################################################
 
 from astropy.io import fits
@@ -30,21 +34,42 @@ def make_dir(name):
     return directory
 
 #
-object = input('Objeto de la FocusSerie: ')
 
-total_files = [file for file in os.listdir(os.path.dirname(path)+'/input/') if file.startswith(f'FocusSeries_{object}')]
-for i in range(len(total_files)):
-    # open fit cube
-    focusSerie = f'{object}_{i+1:04d}'
+#~~~~  More than one cube at a time ~~~~#
 
-    fit = fits.open(os.path.dirname(path)+f'/input/FocusSeries_{focusSerie}.fits')
-    hdr = fit[0].header
-    img = fit[0].data
-    directory = make_dir(focusSerie)
+#object = input('Objeto de la FocusSerie: ')
 
-    # slice and save in different fits
-    for slice_index in range(len(img)):
-        img_ind = img[slice_index, :, :]
-        hdr_ind = Header(cards=hdr.cards)
-        slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
-        slc.writeto(os.path.dirname(path) + f'/output/{focusSerie}/{focusSerie}_slice_{slice_index+1}.fits', overwrite=True)
+#total_files = [file for file in os.listdir(os.path.dirname(path)+'/input/') if file.startswith(f'FocusSeries_{object}')]
+#for i in range(len(total_files)):
+#    focusSerie = f'{object}_{i+1:04d}'
+#    # open fit cube
+#    hdul = fits.open(os.path.dirname(path)+f'/input/FocusSeries_{focusSerie}.fits')
+#    hdr = hdul[0].header
+#    img = hdul[0].data
+#    directory = make_dir(focusSerie)
+#
+#    # slice and save in different fits
+#    for slice_index in range(len(img)):
+#        img_ind = img[slice_index, :, :]
+#        hdr_ind = Header(cards=hdr.cards)
+#        slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
+#        slc.writeto(os.path.dirname(path) + f'/output/{focusSerie}/{focusSerie}_slice_{slice_index+1}.fits', overwrite=True)
+
+
+
+#~~~~     One cube at a time     ~~~~#
+
+focusSerie = input('Focus Serie (ej: M34_0004): ')
+
+hdul = fits.open(os.path.dirname(path)+f'/input/FocusSeries_{focusSerie}.fits')
+hdr = hdul[0].header
+img = hdul[0].data
+dir_focusSerie= make_dir(focusSerie)
+dir_originals = make_dir(f'{focusSerie}/originals')
+
+# slice and save in different fits
+for slice_index in range(len(img)):
+    img_ind = img[slice_index, :, :]
+    hdr_ind = Header(cards=hdr.cards)
+    slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
+    slc.writeto(os.path.dirname(path) + f'/output/{focusSerie}/originals/{focusSerie}_{slice_index+1}.fits', overwrite=True)
