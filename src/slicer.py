@@ -1,20 +1,20 @@
-#        SLICER_FITS
+#                                SLICER_FITS
 #
-# Para cortar los cubos fits de PANIC.
+# To cut PANIC fits cubes.
 #
-#  **inputs**
-#   1. Carpeta /input con las imagenes fits originales en el mismo dir que este script
-#   2. El nombre del objeto (lo pide el programa)
+# **inputs**
+#   1. Folder /input with original fits images in the same directory as this script
+#   2. Object name (prompted by the program)
 #
-#  Se crean fits individuales con el header del cubo original.
-#  El nombre de los fits individuales es *'nombre de la serie'+slice_i*,
-#  y se guardan en las respectivas carpetas de las series y llamadas por
-#  su propio nombre en la carpeta output.
+# Individual fits are created with the header of the original cube.
+# The names of the individual fits are 'series name'+i.fits, and they are
+# saved in the respective series folders, called by their own names in the
+# output folder.
 #
-#  Dos modos disponibles:
-#   - Para un solo cubo
-#   - Para varios cubos del mismo objeto numerados desde el 1
-#
+# Two available modes:
+#   - For a single cube
+#   - For multiple cubes of the same object (numbered from 1)
+
 ####################################################################################
 
 from astropy.io import fits
@@ -71,4 +71,4 @@ for slice_index in range(len(img)):
 #        img_ind = img[slice_index, :, :]
 #        hdr_ind = Header(cards=hdr.cards)
 #        slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
-#        slc.writeto(os.path.dirname(path) + f'/output/{focusSerie}/{focusSerie}_slice_{slice_index+1}.fits', overwrite=True)
+#        slc.writeto(os.path.dirname(path) + f'/output/{focusSerie}/{focusSerie}_{slice_index+1}.fits', overwrite=True)
