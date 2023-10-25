@@ -1,9 +1,8 @@
 input/*
 output/*
-.ipynb_checkpoints/*
 .idea/*
 src/*.ipynb
-src/.ipynb_checkpoints/*
+src/jupyter/*
+src/tools/*
 src/align*
-git_pull_overwrite
-myGit
+
