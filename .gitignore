@@ -2,7 +2,7 @@ input/*
 output/*
 .idea/*
 src/*.ipynb
-src/jupyter/*
-src/tools/*
+#src/jupyter/*
+#/tools/*
 src/align*
 
