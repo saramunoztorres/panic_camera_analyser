@@ -37,20 +37,20 @@ def make_dir(name):
 
 #~~~~     One cube at a time     ~~~~#
 
-focusSerie = input('Focus Serie (ej: M34_0004): ')
+name = input('Serie name (ej: FocusSeries_M34_0002): ')
 
-hdul = fits.open(os.path.dirname(path)+f'/input/FocusSeries_{focusSerie}.fits')
+hdul = fits.open(os.path.dirname(path)+f'/input/{name}.fits')
 hdr = hdul[0].header
 img = hdul[0].data
-dir_focusSerie= make_dir(focusSerie)
-dir_originals = make_dir(f'{focusSerie}/originals')
+dir_focusSerie= make_dir(name)
+dir_originals = make_dir(f'{name}/originals')
 
 # slice and save in different fits
 for slice_index in range(len(img)):
     img_ind = img[slice_index, :, :]
     hdr_ind = Header(cards=hdr.cards)
     slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
-    slc.writeto(os.path.dirname(path)+f'/output/{focusSerie}/originals/{focusSerie}_{slice_index+1}.fits',overwrite=True)
+    slc.writeto(os.path.dirname(path)+f'/output/{name}/originals/{name}_{slice_index+1}.fits',overwrite=True)
 
 
 #~~~~  More than one cube at a time ~~~~#

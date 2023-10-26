@@ -11,15 +11,15 @@
 from astropy.io import fits
 import os
 
-object = input('Cube directory (ej: M43_0001): ')
-name = input('Final image name (ej: M43_0001_cube): ')
+name = input('Cube directory (ej: FocusSeries_M43_0001): ')
+final_img_name = input('Final image name (ej: FocusSeries_M43_0001_collapse): ')
 
 path = os.getcwd()
-path = os.path.dirname(path)+f'/output/{object}/originals/'
+path = os.path.dirname(path)+f'/output/{name}/originals/'
 
-total_files = [file for file in os.listdir(path) if file.startswith(f'{object}_')]
+total_files = [file for file in os.listdir(path) if file.startswith(f'{name}_')]
 for i in range(len(total_files)):
-    with fits.open(path + f'{object}_{i + 1}.fits') as hdul:
+    with fits.open(path + f'{name}_{i + 1}.fits') as hdul:
         img = hdul[0].data
         header = hdul[0].header
 
@@ -30,4 +30,4 @@ for i in range(len(total_files)):
 
 img_sum = fits.PrimaryHDU(suma, header=header)
 hdul = fits.HDUList([img_sum])
-hdul.writeto(path + f'{name}.fits', overwrite=True)
+hdul.writeto(path + f'{final_img_name}.fits', overwrite=True)
