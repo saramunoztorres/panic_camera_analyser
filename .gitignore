@@ -6,5 +6,4 @@ src/*.ipynb
 src/jupyter/*
 src/tools/*
 src/align*
-.git/*
 myGit
