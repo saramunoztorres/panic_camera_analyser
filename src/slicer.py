@@ -20,6 +20,7 @@
 from astropy.io import fits
 from astropy.io.fits import Header
 import os
+import sys
 
 path = os.getcwd()
 
@@ -37,20 +38,22 @@ def make_dir(name):
 
 #~~~~     One cube at a time     ~~~~#
 
-name = input('Serie name (ej: FocusSeries_M34_0002): ')
+name = sys.argv[1]
+date = sys.argv[2]
+#name = input('Serie name (ej: FocusSeries_M34_0002): ')
+#date = input('Date (YYY-MM-DD): ')
 
-hdul = fits.open(os.path.dirname(path)+f'/input/{name}.fits')
+hdul = fits.open(os.path.dirname(path)+f'/input/{date}/{name}.fits')
 hdr = hdul[0].header
 img = hdul[0].data
-dir_focusSerie= make_dir(name)
-dir_originals = make_dir(f'{name}/originals')
+dir_originals = make_dir(f'{date}/{name}/originals')
 
 # slice and save in different fits
 for slice_index in range(len(img)):
     img_ind = img[slice_index, :, :]
     hdr_ind = Header(cards=hdr.cards)
     slc = fits.PrimaryHDU(data=img_ind, header=hdr_ind)
-    slc.writeto(os.path.dirname(path)+f'/output/{name}/originals/{name}_{slice_index+1}.fits',overwrite=True)
+    slc.writeto(os.path.dirname(path)+f'/output/{date}/{name}/originals/{name}_{slice_index+1}.fits',overwrite=True)
 
 
 #~~~~  More than one cube at a time ~~~~#
